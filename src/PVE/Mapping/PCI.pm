@@ -68,7 +68,7 @@ my $map_fmt = {
     path => {
         description => "The path to the device. If the function is omitted, the whole device is"
             . " mapped. In that case use the attributes of the first device. You can give"
-            . " multiple paths as a semicolon seperated list, the first available will then"
+            . " multiple paths as a semicolon separated list, the first available will then"
             . " be chosen on guest start.",
         type => 'string',
         pattern => "(?:${PCI_RE};)*${PCI_RE}",
