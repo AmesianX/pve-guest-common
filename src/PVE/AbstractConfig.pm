@@ -840,6 +840,7 @@ sub snapshot_create {
         $class->__snapshot_activate_storages($conf, 0);
 
         if ($freezefs) {
+            print "freeze guest filesystem\n";
             $class->__snapshot_freeze($vmid, 0);
         }
 
@@ -860,6 +861,7 @@ sub snapshot_create {
     if ($running) {
         $class->__snapshot_create_vol_snapshots_hook($vmid, $snap, $running, "after");
         if ($freezefs) {
+            print "thaw guest filesystem\n";
             $class->__snapshot_freeze($vmid, 1);
         }
         $class->__snapshot_create_vol_snapshots_hook($vmid, $snap, $running, "after-unfreeze");
