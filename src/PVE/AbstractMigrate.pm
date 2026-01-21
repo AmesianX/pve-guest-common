@@ -384,4 +384,20 @@ sub get_bwlimit {
     return $bwlimit;
 }
 
+sub map_storage {
+    my ($self, $scfg, $storeid) = @_;
+
+    # NOTE: For remote migration, always map shared storages. For local migration, shared storages
+    # were never mapped in the past, but to fix bug #3229, storages that are not configured for the
+    # target are mapped too.
+    my $do_map;
+    if ($self->{opts}->{remote} || !$scfg->{shared}) {
+        $do_map = 1;
+    } else { # intra-cluster migration, shared storage
+        $do_map = !PVE::Storage::storage_check_node($self->{storecfg}, $storeid, $self->{node}, 1);
+    }
+
+    return $do_map ? PVE::JSONSchema::map_id($self->{opts}->{storagemap}, $storeid) : $storeid;
+}
+
 1;
